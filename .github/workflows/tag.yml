@@ -1,0 +1,18 @@
+name: tag
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        required: true
+permissions:
+  contents: write
+jobs:
+  tag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git tag -a "${{ inputs.tag }}" -m "image: probe" HEAD
+          git push origin "refs/tags/${{ inputs.tag }}"
